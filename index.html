@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proboscis Monkey</title>
+    <style>
+        @font-face {
+            font-family: 'Sauce Barbe';
+            src: url('Sauce Barbe.otf') format('opentype');
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes typing {
+            0% { width: 0; }
+            40% { width: 16ch; }
+            60% { width: 16ch; }
+            100% { width: 0; }
+        }
+        @keyframes blink {
+            50% { border-color: transparent; }
+        }
+        @keyframes scrollBackground {
+            from { background-position: 0 0; }
+            to { background-position: 20px 20px; }
+        }
+        @keyframes fadeInLeft {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes solarAnimation {
+            0% {
+                transform: scaleX(0);
+                opacity: 0;
+            }
+            100% {
+                transform: scaleX(1);
+                opacity: 1;
+            }
+        }
+
+        body {
+            font-family: 'Sauce Barbe', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #EFE9E1;
+            color: #322D29;
+            text-align: center;
+            animation: fadeIn 2s ease-in;
+            background-image: linear-gradient(90deg, #D1C7BD 1px, transparent 1px), linear-gradient(#D1C7BD 1px, transparent 1px);
+            background-size: 20px 20px;
+            animation: scrollBackground 5s linear infinite;
+        }
+        .typing-animation {
+            font-family: monospace, Arial, sans-serif;
+            color: #72383D;
+            font-size: 2em;
+            margin: 50px auto;
+            width: fit-content;
+            border-right: 2px solid;
+            white-space: nowrap;
+            overflow: hidden;
+            animation: typing 5s steps(16, end) infinite, blink 0.5s step-end infinite;
+        }
+        .map-container {
+            position: relative;
+            margin: 50px auto;
+            width: 90%;
+            max-width: 800px;
+        }
+        .map-image {
+            width: 100%;
+            opacity: 0.9;
+        }
+        .character {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+        .character:hover {
+            transform: scale(2.5);
+        }
+        /* Position the characters on the map */
+        .character1 {
+            top: 20%;  /* Adjust as needed */
+            left: 30%;  /* Adjust as needed */
+        }
+        .character2 {
+            top: 45%;  /* Adjust as needed */
+            left: 55%;  /* Adjust as needed */
+        }
+        .character3 {
+            top: 61%;  /* Adjust as needed */
+            left: 39%;  /* Adjust as needed */
+        }
+        .story-box {
+            position: fixed;
+            top: 10%;
+            right: 10%;
+            width: 300px;
+            padding: 15px;
+            background: #72383D;
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transform: scaleX(0);
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        .story-box.active {
+            animation: solarAnimation 0.5s ease-out forwards;
+        }
+        .story-box h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.5em;
+        }
+        .story-box p {
+            margin: 0;
+            font-size: 1em;
+            line-height: 1.5;
+        }
+        .social-icons {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+        }
+        .social-icons img {
+            width: 40px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="typing-animation">Proboscis Monkey</div>
+    <div class="map-container">
+        <img src="image/borneo.png" alt="Borneo Map" class="map-image">
+
+        <!-- Character 1 (Barry) -->
+        <img src="image/karakter_1.png" alt="Barry the Brave" class="character character1" onmouseover="showStory(1)" onmouseout="hideStory()">
+        
+        <!-- Character 2 (Harry) -->
+        <img src="image/karakter_2.png" alt="Harry the Helper" class="character character2" onmouseover="showStory(2)" onmouseout="hideStory()">
+        
+        <!-- Character 3 (Carry) -->
+        <img src="image/karakter_3.png" alt="Carry the Curious" class="character character3" onmouseover="showStory(3)" onmouseout="hideStory()">
+    </div>
+
+    <div class="story-box" id="story-box">
+        <h3 id="story-title">Character Story</h3>
+        <p id="story-content">Hover over a character to reveal their story and role in the jungle adventures.</p>
+    </div>
+
+    <div class="social-icons">
+        <!-- X logo -->
+        <a href="https://x.com/proboscisonsol" target="_blank">
+            <img src="image/x_logo.png" alt="X Logo">
+        </a>
+
+        <!-- Telegram logo -->
+        <a href="https://t.me/ProboscisMonkeyOnSol" target="_blank">
+            <img src="image/telegram_logo.png" alt="Telegram Logo">
+        </a>
+    </div>
+
+    <script>
+        const stories = {
+            1: {
+                title: "Barry",
+                content: "Barry the proboscis monkey was known throughout the mangrove forest for his fearlessness. While his brothers, Harry and Carry, preferred to swing lazily through the trees, Barry craved adventure. He'd often venture deep into the murky waters, exploring hidden caves and searching for the legendary giant crab.\n\nOne day, a fierce storm raged through the forest. The wind howled, and the rain lashed down, flooding the usual paths. Harry and Carry huddled together in their treehouse, trembling. But Barry, ever the adventurer, decided to help. He swam through the raging waters, rescuing other monkeys who had been swept away by the flood. He even managed to pull a small deer to safety, earning the admiration of the entire monkey troop. From that day on, Barry was not only known for his bravery, but also for his kindness."
+            },
+            2: {
+                title: "Harry",
+                content: "Harry the proboscis monkey was the most helpful member of his family. While Barry sought adventure and Carry enjoyed playing pranks, Harry always had an eye out for those in need. He'd carefully collect fallen fruits for the elderly monkeys, help build stronger nests, and even offer his back for younger monkeys to ride on.\n\nOne day, a young monkey named Pip was separated from his troop during a playful chase. Panic-stricken, Pip cried out for help. Harry, hearing his cries, immediately set off to find him. He searched tirelessly, navigating through the dense foliage and braving the murky waters. Finally, he spotted Pip, shivering and alone. Harry gently guided Pip back to his troop, where he was reunited with his relieved mother. Pip's mother was so grateful to Harry that she declared him an honorary member of their troop."
+            },
+            3: {
+                title: "Carry",
+                content: "Carry the proboscis monkey was the most curious member of his family. While Barry sought excitement and Harry sought to help, Carry was always eager to learn. He'd spend hours observing the intricate patterns on the wings of butterflies, studying the habits of the elusive fireflies, and even trying to decipher the calls of the various birds in the forest.\n\nOne day, Carry stumbled upon a strange, glowing object buried deep within the mud. Intrigued, he carefully dug it up. It was a beautiful, iridescent shell, unlike anything he had ever seen before. Carry brought the shell back to his family, eager to share his discovery. With the help of his brothers, they researched the shell and learned that it belonged to a rare creature that lived deep in the ocean. Carry was overjoyed to have made such an important discovery, and his curiosity continued to lead him to new and exciting wonders."
+            }
+        };
+
+        function showStory(character) {
+            const storyBox = document.getElementById('story-box');
+            const title = document.getElementById('story-title');
+            const content = document.getElementById('story-content');
+
+            title.textContent = stories[character].title;
+            content.textContent = stories[character].content;
+            storyBox.classList.add('active');
+        }
+
+        function hideStory() {
+            const storyBox = document.getElementById('story-box');
+            storyBox.classList.remove('active');
+        }
+    </script>
+</body>
+</html>
